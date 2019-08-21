@@ -1,0 +1,111 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /
+
+spring:
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    password: 123123
+    timeout: 1000
+    database: 0
+    expire: 604800
+    jedis:
+      pool:
+        # 最大空闲数
+        max-idle: 1000
+        # 最大等待时间 ms
+        max-wait: 9000
+        # 最大连接数
+        max-active: 1000
+        # 最小空闲数
+        min-idle: 5
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/fswx?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&useSSL=true
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-active: 1000
+      initial-size: 100
+      max-wait: 60000
+      min-idle: 500
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-on-borrow: false
+      test-on-return: false
+  # 消息队列
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        # 消费者数量
+        concurrency: 10
+        # 消费者数量
+        max-concurrency: 10
+        # 每次从prefetch中取几个
+        prefetch: 1
+        # 消费者是否自动启动
+        auto-startup: true
+        # 消息消费失败后是否重新加到队列来
+        default-requeue-rejected: true
+    template:
+      retry:
+        # 队列满了是否重置
+        enabled: true
+        # 多少毫秒之后重试
+        initial-interval: 1000
+        # 对多几次
+        max-attempts: 3
+        # 最大间隔时间多少毫秒
+        max-interval: 10000
+        multiplier: 1.0
+
+# 自定义登录页
+winston:
+  security:
+    browser:
+      loginPage: /login
+      # 配置网页（REDIRECT)还是前后端分离（JSON）
+      loginType: JSON
+      # 配置登录模式
+      loginTag: web
+    # 验证码配置
+    code:
+      image:
+        length: 6
+        width: 100
+        url: /user,/user/*
+    wechat:
+      token: k3GgbL7MXL2HgLa27Z2sgHUhXXsML0uU
+      #      appId: wxa1f5323fc8caf624
+      #      # f04564d596f034f5d2e9b6377f37b991
+      #      secret: f04564d596f034f5d2e9b6377f37b991
+      # 测试账号
+      appId: wx88d752d35b29c1c5
+      secret: f9c260b6544df2e0f0060487bcfdab88
+      redirectUrl: http://winston-jujia.nat300.top/weixinRedirect
+      responseType: code
+      scope: snsapi_login
+
+file:
+  # 配置文件存储位置
+  path: E:/DEV-TOOLS/nginx-1.14.0/html/images/
+  # 配置文件访问路径
+  pathHttp: http://192.168.101.114/images/
+
+mybatis:
+  check-config-location: false
+  type-aliases-package: com.winston.entity
+  mapper-locations: classpath:mapper/*.xml
+
+shiro:
+  session:
+    timeout: 604800
