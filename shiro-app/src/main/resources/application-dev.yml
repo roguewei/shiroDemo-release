@@ -94,6 +94,12 @@ winston:
       redirectUrl: http://winston-jujia.nat300.top/weixinRedirect
       responseType: code
       scope: snsapi_login
+    jwt:
+      tokenExpirationTime: 3600000
+      tokenIssuer: winston-pms
+      tokenSigningKey: 0c34c2245a035786e936fec8b7e93541
+      redisPrefix: fswx
+      header: authorization
 
 file:
   # 配置文件存储位置
@@ -105,7 +111,3 @@ mybatis:
   check-config-location: false
   type-aliases-package: com.winston.entity
   mapper-locations: classpath:mapper/*.xml
-
-shiro:
-  session:
-    timeout: 604800

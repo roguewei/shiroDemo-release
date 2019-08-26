@@ -5,6 +5,9 @@ import com.winston.service.IUserService;
 import com.winston.utils.result.CodeMsg;
 import com.winston.utils.result.Result;
 import com.winston.utils.service.TokenService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,9 +41,17 @@ public class LoginController {
         return Result.success(token);
     }
 
+    @GetMapping("/logout")
+    public Result logout(){
+        tokenService.clearToken();
+
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return Result.success("您已退出登录");
+    }
+
     @GetMapping("/unauthorized")
     public Result unauthorized(){
         return Result.success("未登录，请重新登录");
     }
-
 }

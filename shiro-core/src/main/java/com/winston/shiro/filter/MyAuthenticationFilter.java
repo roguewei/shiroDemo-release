@@ -36,7 +36,7 @@ import java.util.Date;
  */
 public class MyAuthenticationFilter extends AuthenticatingFilter {
 
-    @Value("${shiro.session.timeout}")
+    @Value("${spring.redis.expire}")
     private int timeout;
 
     @Autowired
@@ -111,7 +111,7 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
                                 exitToken = tokenService.authToken(httpServletRequest);
                             }
 //                            if((token != null && exitToken) || session != null){
-                            if((token != null && exitToken)){
+                            if(exitToken){
                                 return super.onPreHandle(request, response, mappedValue);
                             }
                             outPut(response);
@@ -152,7 +152,6 @@ public class MyAuthenticationFilter extends AuthenticatingFilter {
             throw new IllegalStateException("无法获取： AuthenticationToken");
         }
         try {
-
             Subject subject = getSubject(request, response);
             subject.login(token);
             subject.getSession().setTimeout(1000*timeout);

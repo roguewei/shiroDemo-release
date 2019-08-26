@@ -66,4 +66,9 @@ public class PermissionServiceImpl implements IPermissionService {
         }
         return null;
     }
+
+    @Override
+    public void addAllUrl(Permission permission) {
+        mapper.insert(permission);
+    }
 }

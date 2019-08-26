@@ -10,4 +10,6 @@ public interface IPermissionService {
 
     List<Permission> queryByUserName(String username);
 
+    void addAllUrl(Permission permission);
+
 }

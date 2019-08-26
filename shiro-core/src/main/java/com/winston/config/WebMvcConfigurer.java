@@ -1,5 +1,6 @@
 package com.winston.config;
 
+import com.winston.interceptor.NeedLogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +14,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
-//    @Autowired
-//    private NeedLogInterceptor needLogInterceptor;
+    @Autowired
+    private NeedLogInterceptor needLogInterceptor;
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(needLogInterceptor);
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(needLogInterceptor);
+    }
 
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();

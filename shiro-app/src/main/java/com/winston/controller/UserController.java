@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @RequiresPermissions("/app/users")
+//    @RequiresPermissions("/app/users")
     @GetMapping
     public Result query(){
         List<User> users = userService.queryAll();

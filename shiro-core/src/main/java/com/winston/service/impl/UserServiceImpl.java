@@ -4,6 +4,7 @@ import com.winston.entity.User;
 import com.winston.entity.UserExample;
 import com.winston.mapper.UserMapper;
 import com.winston.service.IUserService;
+import com.winston.utils.jwt.RawAccessJwtToken;
 import com.winston.utils.shiro.PasswordHelper;
 import com.winston.utils.wechat.WeChatUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private RawAccessJwtToken rawAccessJwtToken;
 
     @Override
     public List<User> queryAll() {
@@ -86,8 +90,20 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int save(User user) {
-        int id = mapper.insert(user);
-        return id;
+        String nicname = rawAccessJwtToken.getUserName();
+        long nowTime = new Date().getTime();
+
+        user.setEnable(1);
+        user.setState("1");
+        user.setCreateOpr(nicname);
+        user.setCreateTime(nowTime);
+        user.setUpdateOpr(nicname);
+        user.setUpdateTime(nowTime);
+        user.setOperatorType("0");
+        PasswordHelper passwordHelper = new PasswordHelper();
+        passwordHelper.encryptPassword(user);
+        mapper.insert(user);
+        return user.getId();
     }
 
     //    @Override

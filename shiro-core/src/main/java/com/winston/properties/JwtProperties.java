@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit;
 @Data
 public class JwtProperties {
     /**
-     * JwtToken 默认过期时间
+     * JwtToken 默认过期时间（ms）
      */
-    private long tokenExpirationTime = 60 * 60 * 24 * 7 * 1000;
+    private long tokenExpirationTime = 60 * 60 * 1000;
 //    private long tokenExpirationTime = 1000L * 60 * 5;
 
     /**
